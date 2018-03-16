@@ -45,9 +45,7 @@ bool Organism::can_reproduce() const {
 	}
 } */
 
-
-//my compiler objects at the use of static here--I don't think it should be here
-Organism Organism::mate(Organism male, Organism female) {
+Organism Organism::mate(Organism &male, Organism &female) {
 	vector<Gene> child_genes;
 	child_genes.resize(male.genes.size());
 

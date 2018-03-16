@@ -19,7 +19,7 @@ public:
 	//void set_gene(Gene g, int pos);
 	//void add_gene(Gene g);
 	void mate(std::vector<Gene> &n_geno) const;
-	static Organism mate(Organism male, Organism female); // Makes a single child
+	static Organism mate(Organism &male, Organism &female); // Makes a single child
 private:
 	int food;//keep track of amount of food
 	std::vector<Gene> genes;
