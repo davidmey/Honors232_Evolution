@@ -14,7 +14,6 @@ public:
 	void set_mate(double mate);
 
 	void set_max_reproductions();
-
 	bool can_reproduce() const;
 
 	//void set_gene(Gene g, int pos);

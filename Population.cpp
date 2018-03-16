@@ -1,8 +1,10 @@
 #include <algorithm>
+#include <cstdlib>
 #include <numeric>
 #include <utility>
 #include <vector>
 #include "Population.h"
+#include "Organisms.h"
 
 using namespace std;
 
@@ -62,15 +64,35 @@ bool smaller_than_threshold(int i) {
 }
 
 void Population::mate() {
-	size_t minimum = min(males.size(), females.size());
+	vector<Organism> children;
+	while (!males.empty() && !females.empty()) {
+		size_t minimum = min(males.size(), females.size());
 
-	// Generate random non-repeating indices
-	vector<size_t> indices(minimum);
-	iota(indices.begin(), indices.end(), 0);
-	random_shuffle(indices.begin(), indices.end());
+		// Generate random non-repeating indices
+		vector<size_t> male_indices(minimum), female_indices(minimum);
+		iota(male_indices.begin(), male_indices.end(), 0);
+		random_shuffle(male_indices.begin(), male_indices.end());
+		iota(female_indices.begin(), female_indices.end(), 0);
+		random_shuffle(female_indices.begin(), female_indices.end());
 
-	for (size_t index : indices) {
-		// TODO: Mate, add, and remove
+		for (size_t i = 0; i != male_indices.size(); ++i) {
+			Organism &male = males[male_indices[i]];
+			Organism &female = females[female_indices[i]];
+
+			children.push_back(Organism::mate(male, female));
+		}
+	}
+
+	males.clear();
+	females.clear();
+	males.reserve(3 * (children.size() - children.size() % 4) / 4);
+	females.reserve(3 * (children.size() - children.size() % 4) / 4);
+	for (Organism child : children) {
+		if (rand() % 2 == 0) {
+			males.push_back(child);
+		} else {
+			females.push_back(child);
+		}
 	}
 }
 
